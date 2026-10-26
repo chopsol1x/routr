@@ -928,10 +928,10 @@ html.calm { scroll-behavior: auto; }
 
 <script>
 (function () {
-  // Motion follows the visitor's reduced-motion setting unless they flip the Animations switch (remembered per browser).
+  // Full motion by default; the Animations switch in the top bar turns it off (remembered per browser).
   let motionPref = null;
-  try { motionPref = localStorage.getItem('df-motion'); } catch (e) { /* storage blocked: follow the system setting */ }
-  const reduce = motionPref ? motionPref === 'off' : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try { motionPref = localStorage.getItem('df-motion'); } catch (e) { /* storage blocked: default to full motion */ }
+  const reduce = motionPref === 'off';
   document.documentElement.classList.add(reduce ? 'calm' : 'anim');
   if (!('IntersectionObserver' in window)) document.documentElement.classList.remove('anim');
   const $ = (id) => document.getElementById(id);
