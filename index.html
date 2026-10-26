@@ -92,6 +92,9 @@ body.on-intro .rail-brand { opacity: 0; transform: translateY(-16px) scale(.85);
 .rail-progress span { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 2px; background: var(--green); box-shadow: 0 0 10px var(--green); }
 .rail .btn { min-height: 42px; padding: 0 18px; font-size: 14px; flex-shrink: 0; }
 .rail .motion-toggle { width: auto; min-height: 42px; flex-shrink: 0; border-radius: 999px; }
+.x-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; color: var(--white); background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); transition: background .25s, color .25s, transform .3s var(--ease-pop); }
+.x-link:hover, .x-link:focus-visible { background: var(--white); color: var(--ink); transform: scale(1.08) rotate(-6deg); }
+.x-link svg { width: 18px; height: 18px; }
 
 /* ---------- buttons, tags ---------- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; font: 700 16px/1 var(--display); text-decoration: none; cursor: pointer; white-space: nowrap; transition: transform .2s var(--ease-pop), box-shadow .2s, background .2s; }
@@ -490,6 +493,7 @@ html.calm { scroll-behavior: auto; }
   .wm { font-size: 24px; }
   .rail .motion-toggle, .rail .wallet-btn { display: none; }
   .rail .btn { margin-left: auto; min-height: 40px; padding: 0 14px; }
+  .x-link { width: 40px; height: 40px; }
   .rail-progress { left: 20px; right: 20px; }
   main, .footer { margin-left: 0; }
   .slide { padding-block: 84px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -564,6 +568,7 @@ html.calm { scroll-behavior: auto; }
   <button class="motion-toggle" id="motionToggle" type="button" role="switch" aria-checked="true"><span>Animations</span><span class="sw" aria-hidden="true"></span></button>
   <button class="btn btn-ghost btn-sm wallet-btn" id="walletBtn" type="button">Connect wallet</button>
   <a class="btn btn-white btn-sm" href="#s-router">Try the router</a>
+  <a class="x-link" href="https://x.com/routrdotfun" target="_blank" rel="noopener noreferrer" aria-label="routr.fun on X (opens in a new tab)" title="@routrdotfun on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
 </aside>
 
 <button class="hopper" id="hopper" type="button" aria-label="The routr.fun mascot. Click him to make him jump.">
