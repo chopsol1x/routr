@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -36 260 260" width="64" height="64" role="img" aria-label="routr.fun">
+  <rect x="-30" y="-36" width="260" height="260" rx="58" fill="#5B1CF0"/>
+  <path d="M 100 48 C 100 28, 110 18, 128 18" stroke="#FFFFFF" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M 38 150 C 38 76, 62 44, 100 44 C 138 44, 162 76, 162 150 C 162 168, 150 176, 132 176 L 68 176 C 50 176, 38 168, 38 150 Z" fill="#FFFFFF"/>
+  <ellipse cx="80" cy="106" rx="12" ry="17" fill="#000000"/>
+  <ellipse cx="120" cy="106" rx="12" ry="17" fill="#000000"/>
+</svg>
