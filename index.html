@@ -96,6 +96,7 @@ body.on-intro .rail-brand { opacity: 0; transform: translateY(-16px) scale(.85);
 .x-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; color: var(--white); background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); transition: background .25s, color .25s, transform .3s var(--ease-pop); }
 .x-link:hover, .x-link:focus-visible { background: var(--white); color: var(--ink); transform: scale(1.08) rotate(-6deg); }
 .x-link svg { width: 18px; height: 18px; }
+section[tabindex="-1"]:focus { outline: none; }
 
 /* ---------- buttons, tags ---------- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; font: 700 16px/1 var(--display); text-decoration: none; cursor: pointer; white-space: nowrap; transition: transform .2s var(--ease-pop), box-shadow .2s, background .2s; }
@@ -947,6 +948,23 @@ html.calm { scroll-behavior: auto; }
     try { localStorage.setItem('df-motion', reduce ? 'on' : 'off'); } catch (e) { /* not remembered, applies to this load only */ }
     location.reload();
   });
+  // In-page links scroll to their section without putting "#section" in the address bar.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView();
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
+  // A link that arrives with "#section" (or one typed in later) still jumps there, then the address is tidied up.
+  const dropHash = () => { if (location.hash) history.replaceState(null, '', location.pathname + location.search); };
+  const arrivedAt = decodeURIComponent(location.hash.slice(1));
+  dropHash();
+  if (arrivedAt) window.addEventListener('load', () => { const el = document.getElementById(arrivedAt); if (el) el.scrollIntoView(); });
+  window.addEventListener('hashchange', dropHash);
   const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const fmt = (cents) => usd.format(cents / 100);
   const compact = (n) => n == null ? 'n/a' : '$' + Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 2 }).format(n);
