@@ -156,6 +156,12 @@ main { position: relative; z-index: 1; margin-left: var(--rail); }
 .intro .headline { font-size: clamp(28px, 3.2vw, 46px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-top: 18px; }
 .intro .sub { max-width: 560px; font-size: clamp(16px, 1.4vw, 19px); color: var(--lav); margin-top: 16px; }
 .ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+/* Contract address slot under the wordmark; swap "Coming soon" for the mint once the token is live. */
+.ca-pill { display: inline-flex; align-items: center; gap: 12px; margin: 14px 0 6px; padding: 7px 18px 7px 7px; border-radius: 999px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .24); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--white); font: 600 15px/1 var(--mono); }
+.ca-pill b { padding: 6px 12px; border-radius: 999px; background: var(--green); color: var(--ink); font-weight: 800; letter-spacing: .06em; }
+.ca-pill .soon { color: var(--lav); letter-spacing: .02em; }
+.ca-pill i { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(20, 241, 149, .6); animation: caPulse 1.8s ease-out infinite; }
+@keyframes caPulse { 0% { box-shadow: 0 0 0 0 rgba(20, 241, 149, .6); } 100% { box-shadow: 0 0 0 10px rgba(20, 241, 149, 0); } }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .pills span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); font: 600 13px var(--mono); color: var(--white); }
 .pills span::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
@@ -598,6 +604,7 @@ html.calm { scroll-behavior: auto; }
     <div class="inner intro-grid">
       <div class="intro-left">
         <h1 class="giant" id="heroWord" aria-label="routr.fun"></h1>
+        <p class="ca-pill" data-a="up" style="--d:3"><b>CA</b><span class="soon">Coming soon</span><i aria-hidden="true"></i></p>
         <p class="headline" data-words>Your revenue. Your rules.</p>
         <p class="sub" data-a="blur" style="--d:6">Automated revenue routing for Solana. Split every payment between your team, your treasury, your creators, any pump.fun coin and tokenized stocks, while your keys stay yours.</p>
         <div class="ctas" data-a="up" style="--d:8">
