@@ -162,6 +162,13 @@ main { position: relative; z-index: 1; margin-left: var(--rail); }
 .ca-pill .soon { color: var(--lav); letter-spacing: .02em; }
 .ca-pill i { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(20, 241, 149, .6); animation: caPulse 1.8s ease-out infinite; }
 @keyframes caPulse { 0% { box-shadow: 0 0 0 0 rgba(20, 241, 149, .6); } 100% { box-shadow: 0 0 0 10px rgba(20, 241, 149, 0); } }
+.ca-copy { display: inline-flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: var(--white); font: inherit; letter-spacing: .01em; cursor: pointer; }
+.ca-copy:hover .addr, .ca-copy:focus-visible .addr { text-decoration: underline; text-underline-offset: 4px; }
+.ca-copy svg { width: 16px; height: 16px; flex: none; color: var(--lav); }
+.ca-copy .short, .ca-copy .done { display: none; }
+.ca-copy.copied .addr, .ca-copy.copied svg { display: none; }
+.ca-copy.copied .done { display: inline; color: var(--green); }
+@media (max-width: 640px) { .ca-copy .full { display: none; } .ca-copy .short { display: inline; } .ca-copy.copied .short { display: none; } }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .pills span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); font: 600 13px var(--mono); color: var(--white); }
 .pills span::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
@@ -604,7 +611,7 @@ html.calm { scroll-behavior: auto; }
     <div class="inner intro-grid">
       <div class="intro-left">
         <h1 class="giant" id="heroWord" aria-label="routr.fun"></h1>
-        <p class="ca-pill" data-a="up" style="--d:3"><b>CA</b><span class="soon">Coming soon</span><i aria-hidden="true"></i></p>
+        <p class="ca-pill" id="caPill" data-ca="" data-a="up" style="--d:3"><b>CA</b><span class="soon">Coming soon</span><i aria-hidden="true"></i></p>
         <p class="headline" data-words>Your revenue. Your rules.</p>
         <p class="sub" data-a="blur" style="--d:6">Automated revenue routing for Solana. Split every payment between your team, your treasury, your creators, any pump.fun coin and tokenized stocks, while your keys stay yours.</p>
         <div class="ctas" data-a="up" style="--d:8">
@@ -979,6 +986,27 @@ html.calm { scroll-behavior: auto; }
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const shortMint = (m) => m.slice(0, 4) + '…' + m.slice(-4);
   const MINT = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+  // Contract address: put the mint in data-ca on #caPill and "Coming soon" becomes a click-to-copy address.
+  const caPill = $('caPill');
+  const ca = caPill.dataset.ca.trim();
+  if (MINT.test(ca)) {
+    caPill.querySelector('.soon').outerHTML = '<button class="ca-copy" type="button" title="Copy contract address" aria-label="Copy contract address ' + esc(ca) + '">'
+      + '<span class="addr full">' + esc(ca) + '</span><span class="addr short">' + esc(shortMint(ca)) + '</span><span class="done">Copied ✓</span>'
+      + '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H10V7h9v14z"/></svg></button>';
+    const copyBtn = caPill.querySelector('.ca-copy');
+    copyBtn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(ca); } catch (e) {
+        // Older browsers / blocked clipboard API: copy through a temporary text field.
+        const t = document.createElement('textarea');
+        t.value = ca; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
+      }
+      copyBtn.classList.add('copied');
+      toast('Contract address copied');
+      clearTimeout(copyBtn._t);
+      copyBtn._t = setTimeout(() => copyBtn.classList.remove('copied'), 1600);
+    });
+  }
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const lerp = (a, b, t) => a + (b - a) * t;
 
